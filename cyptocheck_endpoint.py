@@ -39,9 +39,9 @@ def on_intent(request, session):
     intent = request['intent']
     intent_name = request['intent']['name']
 
-    if intent_name == "AMAZON.HelpIntent":
-        return get_welcome_message()
-    elif intent_name == "CheckPrice":
+    if intent_name == 'AMAZON.HelpIntent':
+        return get_help_message()
+    elif intent_name == 'CheckPrice':
         return check_price(intent)
 
 #Called when a session ends
@@ -52,12 +52,26 @@ def on_session_ended(request, session):
 #BEHAVIOR
 
 #Welcome/help
-def get_welcome_message():
-    pass
+def get_help_message():
+    session_attributes = {}
+    title = 'Welcome'
+    output = 'Welcome to CryptoCheck. ' \
+                'Ask me the current price of a cryptocurrency by saying, ' \
+                '\"What is the price for Bitcoin?\"'
+    reprompt = 'Please ask me the current price of a cryptocurrency by saying, ' \
+                '\"What is the price for Bitcoin?\"'
+    should_end_session = False
+    return build_response(session_attributes, title, output, reprompt, should_end_session)
+
+def check_price(intent):
+    if 'Coin' in intent['slots']:
+        coin = intent['slots']['Coin']['value']
+    else:
+        coin = None
 
 #RESPONSE BUILDER
 
-def build_response(session_attributes, title, output, reprompt_text, should_end_session):
+def build_response(session_attributes, title, output, reprompt, should_end_session):
     return {
         'version': '1.0',
         'sessionAttributes': session_attributes,
@@ -68,13 +82,13 @@ def build_response(session_attributes, title, output, reprompt_text, should_end_
             },
             'card': {
                 'type': 'Simple',
-                'title': "SessionSpeechlet - " + title,
-                'content': "SessionSpeechlet - " + output
+                'title': 'SessionSpeechlet - ' + title,
+                'content': 'SessionSpeechlet - ' + output
             },
             'reprompt': {
                 'outputSpeech': {
                     'type': 'PlainText',
-                    'text': reprompt_text
+                    'text': reprompt
                 }
             },
             'shouldEndSession': should_end_session
