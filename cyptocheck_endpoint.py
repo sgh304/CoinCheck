@@ -1,3 +1,7 @@
+import requests
+
+name_to_code = {'Bitcoin': 'BTC', 'Bitcoin Cash': 'BCH'}
+
 #HANDLER
 
 def lambda_handler(event, context):
@@ -63,11 +67,25 @@ def get_help_message():
     should_end_session = False
     return build_response(session_attributes, title, output, reprompt, should_end_session)
 
+#Check price
 def check_price(intent):
+    session_attributes = {}
+    title = 'Check Price'
+    reprompt = 'Please ask me the current price of a cryptocurrency by saying, ' \
+                '\"What is the price for Bitcoin?\"'
+    should_end_session = False
+
     if 'Coin' in intent['slots']:
-        coin = intent['slots']['Coin']['value']
+        name = intent['slots']['Coin']['value']
+        code = name_to_code[name]
+        params = {'fsym': code, 'tsyms': 'USD'}
+        response = requests.get('https://min-api.cryptocompare.com/data/price', params=params)
+        price = response.json()['USD']
+        output = 'The price of ' + name + ' in dollars is ' + price
     else:
-        coin = None
+        output = 'I didn\'t understand you.'
+
+    return build_response(session_attributes, title, output, reprompt, should_end_session)
 
 #RESPONSE BUILDER
 
