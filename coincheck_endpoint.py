@@ -59,7 +59,7 @@ def on_session_ended(request, session):
 def get_help_message():
     session_attributes = {}
     title = 'Welcome'
-    output = 'Welcome to CryptoCheck. ' \
+    output = 'Welcome to CoinCheck. ' \
                 'Ask me the current price of a cryptocurrency by saying, ' \
                 '\"What is the price for Bitcoin?\"'
     reprompt = 'Please ask me the current price of a cryptocurrency by saying, ' \
