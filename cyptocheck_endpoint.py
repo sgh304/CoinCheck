@@ -76,12 +76,12 @@ def check_price(intent):
     should_end_session = False
 
     if 'Coin' in intent['slots']:
-        name = intent['slots']['Coin']['value']
+        name = intent['slots']['Coin']
         code = name_to_code[name]
         params = {'fsym': code, 'tsyms': 'USD'}
         response = requests.get('https://min-api.cryptocompare.com/data/price', params=params)
         price = response.json()['USD']
-        output = 'The price of ' + name + ' in dollars is ' + price
+        output = 'The price of {} in dollars is {}'.format(name, price)
     else:
         output = 'I didn\'t understand you.'
 
