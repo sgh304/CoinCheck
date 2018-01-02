@@ -1,10 +1,5 @@
 import requests
-
-name_to_code = {
-                'USD' : 'USD', 'Dollars': 'USD',
-                'Bitcoin': 'BTC',
-                'Bitcoin Cash': 'BCH'
-                }
+from coincheck_data import name_to_code
 
 #HANDLER
 
@@ -84,7 +79,7 @@ def check_price(intent):
         target_name = intent['slots']['TargetCoin']
     else:
         #Default is USD
-        target_name = 'USD'
+        target_name = 'US Dollars'
     target_code = get_code(target_name)
 
     #Get source coin (unit whose price is being checked)
@@ -94,7 +89,7 @@ def check_price(intent):
         params = {'fsym': source_code, 'tsyms': target_code}
         response = requests.get('https://min-api.cryptocompare.com/data/price', params=params)
         price = response.json()[target_code]
-        output = 'The price of {} in {} is {} {} per {}'.format(source_name, target_name, price, target_name, source_name)
+        output = 'The price is {} {} per {}'.format(price, target_name, source_name)
     else:
         #Output an error message if there's no source coin
         output = 'I didn\'t understand you.'
