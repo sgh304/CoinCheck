@@ -1,5 +1,6 @@
 import requests
 
+#-----CRYPTOCOMPARE API
 #Returns dictionary matching all coin names to their API codes
 def get_name_to_coin():
 	name_to_coin = {}
@@ -29,6 +30,7 @@ def get_name_to_coin():
 
 	return name_to_coin
 
+#-----UTILITY
 #Prints a given dictionary with a certain number of keys per line, ready to be pasted into a .py file
 def print_dictionary(dictionary, keys_per_line):
 	last_index = len(dictionary)
@@ -42,8 +44,3 @@ def print_dictionary(dictionary, keys_per_line):
 				print()
 		index += 1
 	print('}', end='')
-
-#Uses name_to_coin to print a coin name list for the Coin slot type
-def print_coin_list(name_to_coin):
-	for name in name_to_coin:
-		print(name)

@@ -1,3 +1,4 @@
+#Generated using get_name_to_code() in /dev/dev_functions.py
 name_to_code = {'US Dollars' : 'USD', '42 Coin' : '42', '365Coin' : '365', '404Coin' : '404', 
 				'SixEleven' : '611', '808' : '808', 'Octocoin' : '888', '1337' : '1337', 
 				'2015 coin' : '2015', 'Bitcoin' : 'BTC', 'Ethereum' : 'ETH', 'Litecoin' : 'LTC', 

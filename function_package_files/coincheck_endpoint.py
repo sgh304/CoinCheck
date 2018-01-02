@@ -1,8 +1,7 @@
 import requests
 from coincheck_data import name_to_code
 
-#HANDLER
-
+#-----HANDLER
 def lambda_handler(event, context):
     print('event.session.application.applicationId=' +
           event['session']['application']['applicationId'])
@@ -22,8 +21,7 @@ def lambda_handler(event, context):
     elif event['request']['type'] == 'SessionEndedRequest':
         return on_session_ended(event['request'], event['session'])
 
-#EVENTS
-
+#-----EVENTS
 #Called when a session starts
 def on_session_started(request, session):
     print('on_session_started requestId=' + request['requestId']
@@ -52,8 +50,7 @@ def on_session_ended(request, session):
     print('on_session_ended requestId=' + request['requestId'] +
           ', sessionId=' + session['sessionId'])
 
-#BEHAVIOR
-
+#-----BEHAVIOR
 #Welcome/help
 def get_help_message():
     session_attributes = {}
@@ -99,8 +96,7 @@ def check_price(intent):
 def get_code(name):
     return name_to_code[name]
 
-#RESPONSE BUILDER
-
+#-----RESPONSE BUILDER
 def build_response(session_attributes, title, output, reprompt, should_end_session):
     return {
         'version': '1.0',
