@@ -1,6 +1,10 @@
 import requests
 
-name_to_code = {'Bitcoin': 'BTC', 'Bitcoin Cash': 'BCH'}
+name_to_code = {
+                'USD' : 'USD', 'Dollars': 'USD',
+                'Bitcoin': 'BTC',
+                'Bitcoin Cash': 'BCH'
+                }
 
 #HANDLER
 
@@ -75,17 +79,30 @@ def check_price(intent):
                 '\"What is the price for Bitcoin?\"'
     should_end_session = False
 
-    if 'Coin' in intent['slots']:
-        name = intent['slots']['Coin']
-        code = name_to_code[name]
-        params = {'fsym': code, 'tsyms': 'USD'}
-        response = requests.get('https://min-api.cryptocompare.com/data/price', params=params)
-        price = response.json()['USD']
-        output = 'The price of {} in dollars is {}'.format(name, price)
+    #Get target coin (unit of output price)
+    if 'TargetCoin' in intent['slots']:
+        target_name = intent['slots']['TargetCoin']
     else:
+        #Default is USD
+        target_name = 'USD'
+    target_code = get_code(target_name)
+
+    #Get source coin (unit whose price is being checked)
+    if 'SourceCoin' in intent['slots']:
+        source_name = intent['slots']['SourceCoin']
+        source_code = get_code(source_name)
+        params = {'fsym': source_code, 'tsyms': target_code}
+        response = requests.get('https://min-api.cryptocompare.com/data/price', params=params)
+        price = response.json()[target_code]
+        output = 'The price of {} in {} is {} {} per {}'.format(source_name, target_name, price, target_name, source_name)
+    else:
+        #Output an error message if there's no source coin
         output = 'I didn\'t understand you.'
 
     return build_response(session_attributes, title, output, reprompt, should_end_session)
+
+def get_code(name):
+    return name_to_code[name]
 
 #RESPONSE BUILDER
 
