@@ -72,16 +72,16 @@ def check_price(intent):
     should_end_session = False
 
     #Get target coin (unit of output price)
-    if 'TargetCoin' in intent['slots']:
-        target_name = intent['slots']['TargetCoin']
+    if 'value' in intent['slots']['TargetCoin']:
+        target_name = intent['slots']['TargetCoin']['value']
     else:
         #Default is USD
-        target_name = 'US Dollars'
+        target_name = 'us dollars'
     target_code = get_code(target_name)
 
     #Get source coin (unit whose price is being checked)
     if 'SourceCoin' in intent['slots']:
-        source_name = intent['slots']['SourceCoin']
+        source_name = intent['slots']['SourceCoin']['value']
         source_code = get_code(source_name)
         params = {'fsym': source_code, 'tsyms': target_code}
         response = requests.get('https://min-api.cryptocompare.com/data/price', params=params)
