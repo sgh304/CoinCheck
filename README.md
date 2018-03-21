@@ -1,6 +1,8 @@
 # CoinCheck
 A simple Alexa skill that allows users to check the current prices of various cryptocurrencies ("coins").
 
+DISCLAIMER: This was just made for fun/to learn how to write an Alexa skill, and was never published in any real capacity. That said, it should work, so feel free to use/expand upon it!
+
 ## Usage
 There are two steps to getting the skill "running": generating the information needed for Amazon's Apps & Services Developer Portal and generating the Amazon Lambda Function endpoint.
 
